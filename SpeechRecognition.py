@@ -28,7 +28,7 @@ def safe_copy(file_path, out_dir, dst = None):
         shutil.copy(file_path, os.path.join(out_dir, '{}_{}{}'.format(base, i, extension)))
 
 class SpeechReconizer:
-    def __init__(self, labelsPath, tolerance, maxTolerance, k):
+    def __init__(self, labelsPath, tolerance, maxTolerance):
         # Inicializa o objeto de reconhecimento.
         # Usa o caminho 'labelsPath' para obter uma lista
         # dos rótulos passiveis de reconhecimento.
@@ -40,7 +40,6 @@ class SpeechReconizer:
         self.maxTolerance = maxTolerance
         self.allMfccs = {}
         self.mfccs = {}
-        self.k = k
         self.precomputeMFCCs()
 
     def recognizeFile(self, audioPath, executeCallback = False):

@@ -6,7 +6,7 @@ import os
 import RGB
 
 
-recognizer = SR.SpeechReconizer("labels.txt", 1.5, 5, 5)
+recognizer = SR.SpeechReconizer("labels.txt", 1.5, 5)
 
 def notRecognized():
     print("Not recognized")

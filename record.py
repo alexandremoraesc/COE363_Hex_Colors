@@ -4,6 +4,7 @@ from sys import byteorder
 import copy
 import pyaudio
 import wave
+import time 
 
 THRESHOLD = 5000
 CHUNK_SIZE = 1024
@@ -51,6 +52,7 @@ def add_silence(snd_data, seconds):
     return r
 
 def record():
+    time.sleep(0.1)
     silent_chunks = 0
     audio_started = False
     data_all = array('h')
