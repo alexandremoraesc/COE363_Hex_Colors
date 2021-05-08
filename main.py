@@ -15,7 +15,11 @@ def notRecognized():
 def recognized(label, currentMinDist):
     if label == "Vermelho":
         RGB.red += 10
-        print(RGB.red)
+    elif label == "Verde":
+        RGB.green += 10 
+    elif label == "Azul":
+        RGB.blue += 10
+
     print(currentMinDist)
     pass
 
@@ -38,6 +42,9 @@ def main():
 
 
     while running:
+        vermelho = smallfont.render(str(RGB.red) , True , (255,255,255))
+        azul = smallfont.render(str(RGB.blue) , True ,  (255,255,255))
+        verde = smallfont.render(str(RGB.green) , True ,  (255,255,255))
         screen.fill(p.Color(RGB.red,RGB.green,RGB.blue))
         clock.tick(30)
         p.display.flip()
@@ -51,8 +58,8 @@ def main():
         p.draw.rect(screen,(0,0,RGB.green),[3*width/4-50,height/2,140,30])
         screen.blit(gravar , (width/2-100,height/3))
         screen.blit(vermelho , (width/4-50,height/2))
-        screen.blit(azul , (2*width/4-50,height/2))
-        screen.blit(verde , (3*width/4-50,height/2))
+        screen.blit(verde , (2*width/4-50,height/2))
+        screen.blit(azul , (3*width/4-50,height/2))
         
 
         p.display.update()

@@ -52,7 +52,7 @@ def add_silence(snd_data, seconds):
     return r
 
 def record():
-    time.sleep(0.1)
+    time.sleep(0.2)
     silent_chunks = 0
     audio_started = False
     data_all = array('h')
