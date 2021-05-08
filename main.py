@@ -1,5 +1,7 @@
 import pygame as p
 import sys
+import SpeechRecognition
+
 def main():
     red,blue,green = 100,100,100
     p.init()
@@ -15,7 +17,6 @@ def main():
         for event in p.event.get():
             if event.type == p.KEYDOWN:
                 if event.key == p.K_1:
-                    pass
 
                     # red += 10
                     # screen.fill(p.Color(red,green,blue))

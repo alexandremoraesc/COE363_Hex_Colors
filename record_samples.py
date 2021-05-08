@@ -1,6 +1,6 @@
 import record as rec
 import os
-import keyboard
+#import keyboard
 import time
 
 path = input("Digite o identificador da amostra: ")
