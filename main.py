@@ -15,6 +15,7 @@ def main():
         for event in p.event.get():
             if event.type == p.KEYDOWN:
                 if event.key == p.K_1:
+                    pass
 
                     # red += 10
                     # screen.fill(p.Color(red,green,blue))
