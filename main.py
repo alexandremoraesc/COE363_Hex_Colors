@@ -5,7 +5,7 @@ import SpeechRecognition as SR
 import os
 import RGB
 
-
+HEIGHT, WIDTH = 512,512
 recognizer = SR.SpeechReconizer("labels.txt", 1.5, 5)
 
 def notRecognized():
@@ -16,7 +16,7 @@ def recognized(label, currentMinDist):
     if label == "Vermelho":
         RGB.red += 10
     elif label == "Verde":
-        RGB.green += 10 
+        RGB.green += 10
     elif label == "Azul":
         RGB.blue += 10
 
@@ -31,51 +31,45 @@ def main():
     running = True
     clock = p.time.Clock()
     screen = p.display.set_mode((512,512))
-    screen.fill(p.Color(RGB.red,RGB.green,RGB.blue))
-    width = screen.get_width()
-    height = screen.get_height()
     smallfont = p.font.SysFont('Corbel',28)
-    gravar = smallfont.render('Gravar' , True , (255,255,255))
-    vermelho = smallfont.render(str(RGB.red) , True , (255,255,255))
-    azul = smallfont.render(str(RGB.blue) , True ,  (255,255,255))
-    verde = smallfont.render(str(RGB.green) , True ,  (255,255,255))
-
+    gravar = smallfont.render('Gravando...' , True , (170,0,0))
 
     while running:
+        clock.tick(30)
+        p.display.flip()
+        screen.fill(p.Color(RGB.red,RGB.green,RGB.blue))
         vermelho = smallfont.render(str(RGB.red) , True , (255,255,255))
         azul = smallfont.render(str(RGB.blue) , True ,  (255,255,255))
         verde = smallfont.render(str(RGB.green) , True ,  (255,255,255))
-        screen.fill(p.Color(RGB.red,RGB.green,RGB.blue))
-        clock.tick(30)
-        p.display.flip()
         mouse = p.mouse.get_pos()
-        if width/2-100 <= mouse[0] <= width/2+40 and height/3 <= mouse[1] <= height/3+40:
-            p.draw.rect(screen,(170,170,170),[width/2-100,height/3,140,30])
+
+        p.draw.circle(screen, (0,0,0), (WIDTH/2, 4*HEIGHT/5), 40, 0)
+        p.draw.rect(screen,(100,0,0),[WIDTH/4-55,HEIGHT/2,110,30])
+        p.draw.rect(screen,(0,100,0),[2*WIDTH/4-55,HEIGHT/2,110,30])
+        p.draw.rect(screen,(0,0,100),[3*WIDTH/4-55,HEIGHT/2,110,30])
+        if WIDTH/2-25 <= mouse[0] <= WIDTH/2+25 and 4*HEIGHT/5-25 <= mouse[1] <= 4*HEIGHT/5+25:
+            p.draw.circle(screen, (170,0,0), (WIDTH/2, 4*HEIGHT/5), 25, 0)
         else:
-            p.draw.rect(screen,(110,110,110),[width/2-100,height/3,140,30])
-        p.draw.rect(screen,(RGB.red,0,0),[width/4-50,height/2,140,30])
-        p.draw.rect(screen,(0,RGB.blue,0),[2*width/4-50,height/2,140,30])
-        p.draw.rect(screen,(0,0,RGB.green),[3*width/4-50,height/2,140,30])
-        screen.blit(gravar , (width/2-100,height/3))
-        screen.blit(vermelho , (width/4-50,height/2))
-        screen.blit(verde , (2*width/4-50,height/2))
-        screen.blit(azul , (3*width/4-50,height/2))
-        
+            p.draw.circle(screen, (255,0,0), (WIDTH/2, 4*HEIGHT/5), 25, 0)
+
+        screen.blit(vermelho , (WIDTH/4-20,HEIGHT/2))
+        screen.blit(verde , (2*WIDTH/4-20,HEIGHT/2))
+        screen.blit(azul , (3*WIDTH/4-20,HEIGHT/2))
 
         p.display.update()
+
         for event in p.event.get():
             if event.type == p.KEYDOWN:
                 if event.key == p.K_1:
                     pass
-
-                    # RGB.red += 10
-                    # screen.fill(p.Color(RGB.red,RGB.green,RGB.blue))
             elif event.type == p.QUIT:
                 p.quit()
                 sys.exit()
             elif event.type == p.MOUSEBUTTONDOWN:
-                if width/2-100 <= mouse[0] <= width/2+40 and height/3 <= mouse[1] <= height/3+40:
+                if WIDTH/2-25 <= mouse[0] <= WIDTH/2+25 and 4*HEIGHT/5-25 <= mouse[1] <= 4*HEIGHT/5+25:
                     print("Gravando")
+                    screen.blit(gravar , (WIDTH/2-60,63*HEIGHT/100))
+                    p.display.update()
                     mic.recordToFile("output.wav")
                     recognizer.recognizeFile("output.wav", True)
                     os.remove("output.wav")
