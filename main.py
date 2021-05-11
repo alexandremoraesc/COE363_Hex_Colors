@@ -14,11 +14,11 @@ def notRecognized():
 
 def recognized(label, currentMinDist):
     if label == "Vermelho":
-        RGB.red += 10
+        RGB.red += 25
     elif label == "Verde":
-        RGB.green += 10
+        RGB.green += 25
     elif label == "Azul":
-        RGB.blue += 10
+        RGB.blue += 25
 
     print(currentMinDist)
     pass
@@ -30,7 +30,7 @@ def main():
     p.init()
     running = True
     clock = p.time.Clock()
-    screen = p.display.set_mode((512,512))
+    screen = p.display.set_mode((WIDTH,HEIGHT))
     smallfont = p.font.SysFont('Corbel',28)
     gravar = smallfont.render('Gravando...' , True , (170,0,0))
 
@@ -52,9 +52,9 @@ def main():
         else:
             p.draw.circle(screen, (255,0,0), (WIDTH/2, 4*HEIGHT/5), 25, 0)
 
-        screen.blit(vermelho , (WIDTH/4-20,HEIGHT/2))
-        screen.blit(verde , (2*WIDTH/4-20,HEIGHT/2))
-        screen.blit(azul , (3*WIDTH/4-20,HEIGHT/2))
+        screen.blit(vermelho , (WIDTH/4-20,HEIGHT/2+5))
+        screen.blit(verde , (2*WIDTH/4-20,HEIGHT/2+5))
+        screen.blit(azul , (3*WIDTH/4-20,HEIGHT/2+5))
 
         p.display.update()
 
@@ -67,7 +67,7 @@ def main():
                 sys.exit()
             elif event.type == p.MOUSEBUTTONDOWN:
                 if WIDTH/2-25 <= mouse[0] <= WIDTH/2+25 and 4*HEIGHT/5-25 <= mouse[1] <= 4*HEIGHT/5+25:
-                    print("Gravando")
+                    print("Gravando...")
                     screen.blit(gravar , (WIDTH/2-60,63*HEIGHT/100))
                     p.display.update()
                     mic.recordToFile("output.wav")
