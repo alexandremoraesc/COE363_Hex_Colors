@@ -10,7 +10,7 @@ import RGB
 
 def safe_copy(file_path, out_dir, dst = None):
     """Safely copy a file to the specified directory. If a file with the same name already
-    exists, the copied file name is alteRGB.red to preserve both.
+    exists, the copied file name is alteRGB.Vermelho to preserve both.
 
     :param str file_path: Path to the file to copy.
     :param str out_dir: Directory to copy the file into.

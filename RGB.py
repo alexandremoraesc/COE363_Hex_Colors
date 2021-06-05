@@ -1,1 +1,1 @@
-red,blue,green = 100,100,100
+Red,Azul,Verde = 100,100,100
