@@ -47,11 +47,11 @@ class SpeechReconizer:
         Faz reconhecimento do arquivo de audio usando alguma implementação do algoritmo FastDTW
         """
         result = self.__recognize(librosa.load(audioPath), executeCallback)
+        print('recognizeFile')
 
         if (result[2] <= self.tolerance):
             self.mfccs[result[3]].append(result[4])
             dest = "sounds/" + result[1] + "/"
-            print(dest)
             safe_copy(audioPath, dest)
 
         return result
