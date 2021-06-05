@@ -4,6 +4,8 @@ import record as mic
 import SpeechRecognition as SR
 import os
 import RGB
+import random
+import time 
 
 HEIGHT, WIDTH = 512,512
 recognizer = SR.SpeechReconizer("labels.txt", 1.5, 5)
@@ -13,14 +15,26 @@ def notRecognized():
     pass
 
 def recognized(label, currentMinDist):
+    print(label,currentMinDist)
     if label == "Vermelho":
-        RGB.red += 25
+        if RGB.red+25 > 255:
+            RGB.red = 255
+        else:
+            RGB.red+=25
     elif label == "Verde":
-        RGB.green += 25
+        if RGB.green+25 > 255:
+            RGB.green = 255
+        else:
+            RGB.green+=25
     elif label == "Azul":
-        RGB.blue += 25
-
-    print(currentMinDist)
+        if RGB.blue+25 > 255:
+            RGB.blue = 255
+        else:
+            RGB.blue+=25
+    elif label == "Troca":
+        RGB.blue = random.randint(0,255)
+        RGB.red = random.randint(0,255)
+        RGB.green = random.randint(0,255)
     pass
 
 recognizer.attachDefaultCallback(recognized)
@@ -70,7 +84,9 @@ def main():
                     print("Gravando...")
                     screen.blit(gravar , (WIDTH/2-60,63*HEIGHT/100))
                     p.display.update()
+                    time.sleep(2)
                     mic.recordToFile("output.wav")
                     recognizer.recognizeFile("output.wav", True)
                     os.remove("output.wav")
+
 main()

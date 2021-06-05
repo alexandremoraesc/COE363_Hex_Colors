@@ -1,3 +1,4 @@
 Vermelho
 Verde
 Azul
+Troca
