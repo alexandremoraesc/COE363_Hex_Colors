@@ -16,27 +16,13 @@ def notRecognized():
 
 def recognized(label, currentMinDist):
     print(label,currentMinDist,RGB.listened)
-    if label == "Vermelho":
+    if label in ["Vermelho", "Azul", "Verde"]:
         RGB.listened = []
         RGB.listened.append(label)
         time.sleep(2)
-        mic.recordToFile("output2.wav")
-        recognizer.recognizeFile("output2.wav", True)
-        os.remove("output2.wav")
-    elif label == "Verde":
-        RGB.listened = []
-        RGB.listened.append(label)
-        time.sleep(2)
-        mic.recordToFile("output2.wav")
-        recognizer.recognizeFile("output2.wav", True)
-        os.remove("output2.wav")
-    elif label == "Azul":
-        RGB.listened = []
-        RGB.listened.append(label)
-        time.sleep(2)
-        mic.recordToFile("output2.wav")
-        recognizer.recognizeFile("output2.wav", True)
-        os.remove("output2.wav")
+        mic.recordToFile("outputcor.wav")
+        recognizer.recognizeFile("outputcor.wav", True)
+        os.remove("outputcor.wav")
     elif label == "Troca":
         print(RGB.listened)
         RGB.data['Azul'] = random.randint(0,255)
@@ -53,6 +39,11 @@ def recognized(label, currentMinDist):
             RGB.listened.append(label)
         if len(RGB.listened) == 4:
             RGB.data[RGB.listened[0]] = int(RGB.listened[1]+RGB.listened[2]+RGB.listened[3])
+        else:
+            time.sleep(2)
+            mic.recordToFile("output_{}.wav".format(len(RGB.listened)))
+            recognizer.recognizeFile("output_{}.wav".format(len(RGB.listened), True))
+            os.remove("output_{}.wav".format(len(RGB.listened))) 
     pass
 
 recognizer.attachDefaultCallback(recognized)
