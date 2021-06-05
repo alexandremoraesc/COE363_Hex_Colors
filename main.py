@@ -47,12 +47,11 @@ def recognized(label, currentMinDist):
         RGB.Azul = random.randint(0,255)
         RGB.Vermelho = random.randint(0,255)
         RGB.Verde = random.randint(0,255)
-    elif label = "Mais":
+    elif label == "Mais":
         if RGB.Azul+25 > 255:
             RGB.Azul = 255
         else:
             RGB.Azul+=25
-
     pass
 
 recognizer.attachDefaultCallback(recognized)
