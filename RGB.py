@@ -1,1 +1,6 @@
-Red,Azul,Verde = 100,100,100
+data = {
+    "Vermelho":100,
+    "Azul":100,
+    "Verde":100
+}
+listened = []

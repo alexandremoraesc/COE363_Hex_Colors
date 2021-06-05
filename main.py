@@ -6,7 +6,7 @@ import os
 import RGB
 import random
 import time 
-import LISTENED as LISTENED
+
 HEIGHT, WIDTH = 512,512
 recognizer = SR.SpeechReconizer("labels.txt", 1.5, 5)
 
@@ -15,44 +15,44 @@ def notRecognized():
     pass
 
 def recognized(label, currentMinDist):
-    print(label,currentMinDist,LISTENED.listened)
+    print(label,currentMinDist,RGB.listened)
     if label == "Vermelho":
-        LISTENED.listened = []
-        LISTENED.listened.append(label)
+        RGB.listened = []
+        RGB.listened.append(label)
         time.sleep(2)
-        mic.recordToFile("output_number0.wav")
-        recognizer.recognizeFile("output_number0.wav", True)
-        os.remove("output_number0.wav")
+        mic.recordToFile("output2.wav")
+        recognizer.recognizeFile("output2.wav", True)
+        os.remove("output2.wav")
     elif label == "Verde":
-        LISTENED.listened = []
-        LISTENED.listened.append(label)
+        RGB.listened = []
+        RGB.listened.append(label)
         time.sleep(2)
-        mic.recordToFile("output.wav")
-        recognizer.recognizeFile("output.wav", True)
-        os.remove("output.wav")
+        mic.recordToFile("output2.wav")
+        recognizer.recognizeFile("output2.wav", True)
+        os.remove("output2.wav")
     elif label == "Azul":
-        LISTENED.listened = []
-        LISTENED.listened.append(label)
+        RGB.listened = []
+        RGB.listened.append(label)
         time.sleep(2)
-        mic.recordToFile("output.wav")
-        recognizer.recognizeFile("output.wav", True)
-        os.remove("output.wav")
-
-        if RGB.Azul+25 > 255:
-            RGB.Azul = 255
-        else:
-            RGB.Azul+=25
+        mic.recordToFile("output2.wav")
+        recognizer.recognizeFile("output2.wav", True)
+        os.remove("output2.wav")
     elif label == "Troca":
-        print(LISTENED.listened)
-        RGB.Azul = random.randint(0,255)
-        RGB.Vermelho = random.randint(0,255)
-        RGB.Verde = random.randint(0,255)
-    elif label = "Mais":
-        if RGB.Azul+25 > 255:
-            RGB.Azul = 255
-        else:
-            RGB.Azul+=25
-
+        print(RGB.listened)
+        RGB.data['Azul'] = random.randint(0,255)
+        RGB.data['Vermelho'] = random.randint(0,255)
+        RGB.data['Verde'] = random.randint(0,255)
+    elif label == "Mais":
+        if len(RGB.listened) > 0:
+            if RGB.data[RGB.listened[0]]+25 > 255:
+                RGB.data[RGB.listened[0]] = 255
+            else:
+                RGB.data[RGB.listened[0]]+=25
+    else:
+        if len(RGB.listened) > 0:
+            RGB.listened.append(label)
+        if len(RGB.listened) == 4:
+            RGB.data[RGB.listened[0]] = int(RGB.listened[1]+RGB.listened[2]+RGB.listened[3])
     pass
 
 recognizer.attachDefaultCallback(recognized)
@@ -69,10 +69,10 @@ def main():
     while running:
         clock.tick(30)
         p.display.flip()
-        screen.fill(p.Color(RGB.Vermelho,RGB.Verde,RGB.Azul))
-        vermelho = smallfont.render(str(RGB.Vermelho) , True , (255,255,255))
-        azul = smallfont.render(str(RGB.Azul) , True ,  (255,255,255))
-        verde = smallfont.render(str(RGB.Verde) , True ,  (255,255,255))
+        screen.fill(p.Color(RGB.data['Vermelho'],RGB.data['Verde'],RGB.data['Azul']))
+        vermelho = smallfont.render(str(RGB.data['Vermelho']) , True , (255,255,255))
+        azul = smallfont.render(str(RGB.data['Azul']) , True ,  (255,255,255))
+        verde = smallfont.render(str(RGB.data['Verde']) , True ,  (255,255,255))
         mouse = p.mouse.get_pos()
 
         p.draw.circle(screen, (0,0,0), (WIDTH/2, 4*HEIGHT/5), 40, 0)
