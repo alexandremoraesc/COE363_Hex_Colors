@@ -17,6 +17,7 @@ CHANNELS = 1
 TRIM_APPEND = RATE / 4
 
 def isSilent(data_chunk):
+    print(max(data_chunk))
     return max(data_chunk) < THRESHOLD
 
 def normalize(data_all):
@@ -55,8 +56,7 @@ def record():
     silent_chunks = 0
     audio_started = False
     data_all = array('h')
-    print("Gravando...")
-    count=0
+    print("record")
     while True:
         data_chunk = array('h', stream.read(CHUNK_SIZE))
         if byteorder == 'big':
@@ -71,9 +71,9 @@ def record():
                     break
             else:
                 silent_chunks = 0
-        elif not silent or count > 10000000000000000:
+            print(silent_chunks)
+        elif not silent:
             audio_started = True
-        count+=1
 
     sample_width = p.get_sample_size(FORMAT)
     #stream.stop_stream()
