@@ -13,50 +13,6 @@ recognizer = SR.SpeechReconizer("labels.txt", 1.5, 5)
 def notRecognized():
     print("Not recognized")
     pass
-
-def recognized(label, currentMinDist):
-    print(label,currentMinDist,RGB.listened)
-    if label in ["Vermelho", "Azul", "Verde"]:
-        RGB.listened = []
-        RGB.listened.append(label)
-        time.sleep(2)
-        mic.recordToFile("outputcor.wav")
-        recognizer.recognizeFile("outputcor.wav", True)
-        try:
-            os.remove("outputcor.wav")
-        except OSError:
-            pass
-
-    elif label == "Troca":
-        print(RGB.listened)
-        RGB.data['Azul'] = random.randint(0,255)
-        RGB.data['Vermelho'] = random.randint(0,255)
-        RGB.data['Verde'] = random.randint(0,255)
-    elif label == "Mais":
-        if len(RGB.listened) > 0:
-            if RGB.data[RGB.listened[0]]+25 > 255:
-                RGB.data[RGB.listened[0]] = 255
-            else:
-                RGB.data[RGB.listened[0]]+=25
-    else:
-        print('numer',RGB.listened)
-        if len(RGB.listened) > 0:
-            RGB.listened.append(label)
-        if len(RGB.listened) == 4:
-            print('chego')
-            print(RGB.listened[1]+RGB.listened[2]+RGB.listened[3])
-            RGB.data[RGB.listened[0]] = int(RGB.listened[1]+RGB.listened[2]+RGB.listened[3])
-        else:
-            print('rec after number', RGB.listened)
-            time.sleep(2)
-            mic.recordToFile("outp22ut_{}.wav".format(len(RGB.listened)))
-            recognizer.recognizeFile("outp22ut_{}.wav".format(len(RGB.listened), True))
-            try:
-                os.remove("outp22ut_{}.wav".format(len(RGB.listened)))
-            except OSError:
-                pass
-    pass
-
 def recognizeCallBack2(label, currentMinDist):
     if label in ["Vermelho", "Azul", "Verde"]:
         RGB.listened.append(label)
@@ -100,7 +56,6 @@ def main():
         azul = smallfont.render(str(RGB.data['Azul']) , True ,  (255,255,255))
         verde = smallfont.render(str(RGB.data['Verde']) , True ,  (255,255,255))
         mouse = p.mouse.get_pos()
-        p.display.update()
         p.draw.circle(screen, (0,0,0), (WIDTH/2, 4*HEIGHT/5), 40, 0)
         p.draw.rect(screen,(100,0,0),[WIDTH/4-55,HEIGHT/2,110,30])
         p.draw.rect(screen,(0,100,0),[2*WIDTH/4-55,HEIGHT/2,110,30])
@@ -127,7 +82,6 @@ def main():
                     print("Gravando...")
                     screen.blit(gravar , (WIDTH/2-60,63*HEIGHT/100))
                     p.display.update()
-                    time.sleep(2)
                     mic.recordToFile("output.wav")
                     recognizer.recognizeFile("output.wav", True)
                     try:
