@@ -22,9 +22,12 @@ def recognizeCallBack2(label, currentMinDist):
         else:
             RGB.listened = [label]
     elif label == "Troca":
-        RGB.data['Azul'] = random.randint(0,255)
-        RGB.data['Vermelho'] = random.randint(0,255)
-        RGB.data['Verde'] = random.randint(0,255)
+        if len(RGB.listened) != 1:
+            RGB.data['Azul'] = random.randint(0,255)
+            RGB.data['Vermelho'] = random.randint(0,255)
+            RGB.data['Verde'] = random.randint(0,255)
+        else:
+            RGB.data[RGB.listened[0]] = random.randint(0,255)
     elif label == "Mais":
         if len(RGB.listened) > 0:
             if RGB.data[RGB.listened[0]]+25 > 255:
@@ -51,7 +54,6 @@ def main():
         clock.tick(30)
         p.display.flip()
         if len(RGB.listened) == 4:
-            print(RGB.listened[1]+RGB.listened[2]+RGB.listened[3])
             if(int(RGB.listened[1]+RGB.listened[2]+RGB.listened[3]) <= 255):
                 RGB.data[RGB.listened[0]] = int(RGB.listened[1]+RGB.listened[2]+RGB.listened[3])
             else:
@@ -59,7 +61,7 @@ def main():
             RGB.listened = []
         screen.fill(p.Color(RGB.data['Vermelho'],RGB.data['Verde'],RGB.data['Azul']))
         listened = smallfont.render(str(RGB.listened) , True ,  (255,255,255))
-        screen.blit(listened , (WIDTH/2-60,63*HEIGHT/100))
+        screen.blit(listened , (WIDTH/2-60,31*HEIGHT/100))
         vermelho = smallfont.render(str(RGB.data['Vermelho']) , True , (255,255,255))
         azul = smallfont.render(str(RGB.data['Azul']) , True ,  (255,255,255))
         verde = smallfont.render(str(RGB.data['Verde']) , True ,  (255,255,255))
@@ -89,7 +91,7 @@ def main():
                 if WIDTH/2-25 <= mouse[0] <= WIDTH/2+25 and 4*HEIGHT/5-25 <= mouse[1] <= 4*HEIGHT/5+25:
                     screen.blit(gravar , (WIDTH/2-60,63*HEIGHT/100))
                     p.display.update()
-                    time.sleep(0.8)
+                    time.sleep(1)
                     mic.recordToFile("output.wav")
                     recognizer.recognizeFile("output.wav", True)
                     try:

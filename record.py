@@ -9,7 +9,7 @@ import time
 THRESHOLD = 5000
 CHUNK_SIZE = 1024
 RATE = 16000
-SILENT_CHUNKS = 4 * RATE / CHUNK_SIZE
+SILENT_CHUNKS = 3 * RATE / CHUNK_SIZE
 FORMAT = pyaudio.paInt16
 FRAME_MAX_VALUE = 2 ** 15 - 1
 NORMALIZE_MINUS_ONE_dB = 10 ** (-1.0 / 20)
@@ -17,7 +17,7 @@ CHANNELS = 1
 TRIM_APPEND = RATE / 4
 
 def isSilent(data_chunk):
-    print(max(data_chunk))
+    # print(max(data_chunk))
     return max(data_chunk) < THRESHOLD
 
 def normalize(data_all):
@@ -57,7 +57,7 @@ def record():
     audio_started = False
     data_all = array('h')
     print("record")
-    print(SILENT_CHUNKS)
+    count = 0
     while True:
         data_chunk = array('h', stream.read(CHUNK_SIZE))
         if byteorder == 'big':
@@ -65,16 +65,19 @@ def record():
         data_all.extend(data_chunk)
         silent = isSilent(data_chunk)
 
-        # if audio_started:
-        if silent:
-            silent_chunks += 1
-            if silent_chunks > SILENT_CHUNKS:
-                break
-        else:
-            silent_chunks = 0
+        if count > 100:
+            if silent:
+                silent_chunks += 1
+                if silent_chunks > SILENT_CHUNKS:
+                    break
+            else:
+                silent_chunks = 0
+        count+=1
+        if(count == 100):
+            print('Fale agora!')
         # elif not silent:
-        #     print('audio started')
-        #     audio_started = True
+            # print('audio started')
+            # audio_started = True
 
     sample_width = p.get_sample_size(FORMAT)
     #stream.stop_stream()
@@ -87,7 +90,6 @@ def record():
     return sample_width, data_all
 
 def recordToFile(path):
-    print('rtF')
     sample_width, data = record()
     wave_file = wave.open(path, 'wb')
     wave_file.setnchannels(CHANNELS)
