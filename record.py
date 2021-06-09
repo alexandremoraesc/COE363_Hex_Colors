@@ -56,7 +56,6 @@ def record():
     audio_started = False
     data_all = array('h')
     print("Gravando...")
-    time.sleep(2)
     count=0
     while True:
         data_chunk = array('h', stream.read(CHUNK_SIZE))
