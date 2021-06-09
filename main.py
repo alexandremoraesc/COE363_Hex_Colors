@@ -13,9 +13,14 @@ recognizer = SR.SpeechReconizer("labels.txt", 1.5, 5)
 def notRecognized():
     print("Not recognized")
     pass
+
 def recognizeCallBack2(label, currentMinDist):
+    print(label)
     if label in ["Vermelho", "Azul", "Verde"]:
-        RGB.listened.append(label)
+        if len(RGB.listened) == 0:
+            RGB.listened.append(label)
+        else:
+            RGB.listened = []
     elif label == "Troca":
         RGB.data['Azul'] = random.randint(0,255)
         RGB.data['Vermelho'] = random.randint(0,255)
@@ -26,6 +31,7 @@ def recognizeCallBack2(label, currentMinDist):
                 RGB.data[RGB.listened[0]] = 255
             else:
                 RGB.data[RGB.listened[0]]+=25
+            RGB.listened = []
     else:
         if len(RGB.listened) > 0:
             RGB.listened.append(label)
@@ -45,7 +51,6 @@ def main():
         clock.tick(30)
         p.display.flip()
         if len(RGB.listened) == 4:
-            print('chego')
             print(RGB.listened[1]+RGB.listened[2]+RGB.listened[3])
             RGB.data[RGB.listened[0]] = int(RGB.listened[1]+RGB.listened[2]+RGB.listened[3])
             RGB.listened = []
@@ -79,7 +84,6 @@ def main():
                 sys.exit()
             elif event.type == p.MOUSEBUTTONDOWN:
                 if WIDTH/2-25 <= mouse[0] <= WIDTH/2+25 and 4*HEIGHT/5-25 <= mouse[1] <= 4*HEIGHT/5+25:
-                    print("Gravando...")
                     screen.blit(gravar , (WIDTH/2-60,63*HEIGHT/100))
                     p.display.update()
                     mic.recordToFile("output.wav")
