@@ -20,7 +20,7 @@ def recognizeCallBack2(label, currentMinDist):
         if len(RGB.listened) == 0:
             RGB.listened.append(label)
         else:
-            RGB.listened = []
+            RGB.listened = [label]
     elif label == "Troca":
         RGB.data['Azul'] = random.randint(0,255)
         RGB.data['Vermelho'] = random.randint(0,255)
