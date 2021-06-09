@@ -89,7 +89,7 @@ def main():
                 if WIDTH/2-25 <= mouse[0] <= WIDTH/2+25 and 4*HEIGHT/5-25 <= mouse[1] <= 4*HEIGHT/5+25:
                     screen.blit(gravar , (WIDTH/2-60,63*HEIGHT/100))
                     p.display.update()
-                    time.sleep(1)
+                    time.sleep(0.8)
                     mic.recordToFile("output.wav")
                     recognizer.recognizeFile("output.wav", True)
                     try:

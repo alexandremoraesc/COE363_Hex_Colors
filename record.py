@@ -57,6 +57,7 @@ def record():
     audio_started = False
     data_all = array('h')
     print("record")
+    print(SILENT_CHUNKS)
     while True:
         data_chunk = array('h', stream.read(CHUNK_SIZE))
         if byteorder == 'big':
@@ -64,16 +65,16 @@ def record():
         data_all.extend(data_chunk)
         silent = isSilent(data_chunk)
 
-        if audio_started:
-            if silent:
-                silent_chunks += 1
-                if silent_chunks > SILENT_CHUNKS:
-                    break
-            else:
-                silent_chunks = 0
-            print(silent_chunks)
-        elif not silent:
-            audio_started = True
+        # if audio_started:
+        if silent:
+            silent_chunks += 1
+            if silent_chunks > SILENT_CHUNKS:
+                break
+        else:
+            silent_chunks = 0
+        # elif not silent:
+        #     print('audio started')
+        #     audio_started = True
 
     sample_width = p.get_sample_size(FORMAT)
     #stream.stop_stream()
