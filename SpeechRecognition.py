@@ -88,7 +88,7 @@ class SpeechReconizer:
                 self.callbacks[label](label, currentMinDist)
             else:
                 self.defaultCallback(label, currentMinDist)
-
+        
         return (True, label, currentMinDist, currentMinId, x)
 
     def attachCallback(self, label, callback):

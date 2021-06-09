@@ -9,7 +9,7 @@ import time
 THRESHOLD = 5000
 CHUNK_SIZE = 1024
 RATE = 16000
-SILENT_CHUNKS = 3 * RATE / CHUNK_SIZE
+SILENT_CHUNKS = 4 * RATE / CHUNK_SIZE
 FORMAT = pyaudio.paInt16
 FRAME_MAX_VALUE = 2 ** 15 - 1
 NORMALIZE_MINUS_ONE_dB = 10 ** (-1.0 / 20)
@@ -56,7 +56,6 @@ def record():
     audio_started = False
     data_all = array('h')
     print("Gravando...")
-    time.sleep(2)
     count=0
     while True:
         data_chunk = array('h', stream.read(CHUNK_SIZE))
